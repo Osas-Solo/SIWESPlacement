@@ -4,9 +4,6 @@ $page_title = "Student Signup";
 require_once "header.php";
 require_once "../entities.php";
 
-$states = State::get_states($database_connection);
-$colleges = ["", "College of Science", "College of Technology"];
-
 $password_error = "Please enter a valid password.";
 
 $first_name_error = $last_name_error = $matriculation_number_error = $confirm_password_error = $email_address_error =
@@ -19,6 +16,9 @@ $first_name = $middle_name = $last_name = $matriculation_number = $email_address
 if (isset($_POST["signup"])) {
     signup_student($database_connection);
 }
+
+$states = State::get_states($database_connection);
+$colleges = ["", "College of Science", "College of Technology"];
 ?>
 
     <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
@@ -42,8 +42,8 @@ if (isset($_POST["signup"])) {
                                            value="<?php echo $middle_name?>">
                                 </div>
                                 <div class="col-12 col-sm-6 mb-3">
-                                    <label class="form-label text-primary" for="last-name">Last Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="last-name" placeholder="Last Name"
+                                    <label class="form-label text-primary" for="last-name">Surname <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="last-name" placeholder="Surname"
                                            required value="<?php echo $last_name?>">
                                     <div class="text-danger" id="last-name-error-message"><?php echo $last_name_error?></div>
                                 </div>
@@ -84,8 +84,8 @@ if (isset($_POST["signup"])) {
                                 </div>
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="date-of-birth">Date of Birth <span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" name="date-of-birth" max="2006-12-31"
-                                           required>
+                                    <input type="date" class="form-control" name="date-of-birth" min="1940-01-01"
+                                           max="2006-12-31" required value="<?php echo $date_of_birth?>">
                                     <div class="text-danger" id="date-of-birth-error-message"><?php echo $date_of_birth_error?></div>
                                 </div>
                                 <div class="col-12 col-sm-6 mb-3">
@@ -150,8 +150,8 @@ if (isset($_POST["signup"])) {
                                 </div>
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="department">Department <span class="text-danger">*</span></label>
-                                    <select id="department-select" class="form-select" name="department" required
-                                            onload="selectDepartment('<?php echo $department?>')">
+                                    <span class="d-none" id="department-id"><?php echo $department?></span>
+                                    <select id="department-select" class="form-select" name="department" required>
                                     </select>
                                     <div class="text-danger" id="department-message"><?php echo $department_error?></div>
                                 </div>
@@ -195,10 +195,87 @@ function signup_student(mysqli $database_connection) {
     $date_of_birth = cleanse_data($_POST["date-of-birth"], $database_connection);
     $address = cleanse_data($_POST["address"], $database_connection);
     $state_of_origin = cleanse_data($_POST["state-of-origin"], $database_connection);
+    $institution = cleanse_data($_POST["institution"], $database_connection);
     $college = cleanse_data($_POST["college"], $database_connection);
     $department = cleanse_data($_POST["department"], $database_connection);
     $password = cleanse_data($_POST["password"], $database_connection);
     $password_confirmer = cleanse_data($_POST["password-confirmer"], $database_connection);
 
+    if (!is_password_valid($password)) {
+        $password_error = "Please enter a valid password.";
+    } else {
+        $password_error = "";
+    }
+
+    if (!is_password_confirmed($password, $password_confirmer)) {
+        $confirm_password_error = "Passwords do not match.";
+    }
+
+    if (!is_matriculation_number_valid($matriculation_number)) {
+        $matriculation_number_error = "Please enter a valid matriculation number.";
+    } else if (is_matriculation_number_in_use($database_connection)) {
+        $matriculation_number_error = "Sorry, the matriculation number $matriculation_number is already in use.";
+    }
+
+    if (!is_detail_filled($first_name)) {
+        $first_name_error = "Please enter your first name.";
+    }
+
+    if (!is_detail_filled($last_name)) {
+        $last_name_error = "Please enter your surname.";
+    }
+
+    if (!is_email_address_valid($email_address)) {
+        $email_address_error = "Please enter a valid email address.";
+    }
+
+    if (!is_phone_number_valid($phone_number)) {
+        $phone_number_error = "Please enter a valid phone number.";
+    }
+
+    if (!is_date_of_birth_valid($date_of_birth)) {
+        $date_of_birth_error = "Please enter a valid date of birth.";
+    }
+
+    if (!is_detail_filled($address)) {
+        $address_error = "Please enter your address.";
+    }
+
+    if (!is_detail_filled($state_of_origin)) {
+        $state_of_origin_error = "Please select your state of origin.";
+    }
+
+    if (!is_detail_filled($college)) {
+        $college_error = "Please select your college.";
+    }
+
+    if (!is_detail_filled($department)) {
+        $department_error = "Please select your department.";
+    }
+
+    if (empty($first_name_error) && empty($last_name_error) && empty($matriculation_number_error) && empty($password_error)
+        && empty($confirm_password_error) && empty($email_address_error) && empty($phone_number_error) &&
+        empty($date_of_birth_error) && empty($address_error) && empty($state_of_origin_error) && empty($college_error)
+        && empty($department_error)) {
+        $insert_query = "INSERT INTO students (matriculation_number, password, first_name, middle_name, last_name, 
+                            email_address, phone_number, date_of_birth, address, state_id, institution, department_id, 
+                            gender) VALUE 
+                            ('$matriculation_number', SHA('$password'), '$first_name', '$middle_name', '$last_name', 
+                             '$email_address', '$phone_number', '$date_of_birth', '$address', $state_of_origin, 
+                             '$institution', $department, '$gender')";
+
+        if ($database_connection->query($insert_query)) {
+            $alert = "<script>
+                        if (confirm('You\'ve successfully completed your registration. You may now proceed to login.')) {";
+            $login_url = "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) . "/login.php";
+            $alert .= "window.location.replace('$login_url');
+                        } else {";
+            $alert .=           "window.location.replace('$login_url');
+                    }";
+            $alert .= "</script>";
+
+            echo $alert;
+        }
+    }
 }
 ?>

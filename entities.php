@@ -66,7 +66,7 @@ class Student {
     }
 
     function is_found(): bool {
-        return $this->matriculation_number != null;
+        return isset($this->matriculation_number);
     }
 
     public function get_full_name() {
@@ -181,7 +181,7 @@ class Organisation {
     }
 
     function is_found(): bool {
-        return $this->email_address != null;
+        return isset($this->email_address);
     }
 
     function get_logo(): string {
@@ -355,7 +355,7 @@ class PlacementOffer {
     }
 
     public function is_found(): bool {
-        return $this->placement_offer_id != null;
+        return isset($this->placement_offer_id);
     }
 
     public function get_salary(): ?string {
@@ -461,7 +461,7 @@ class PlacementRequest {
     }
 
     public function is_found(): bool {
-        return $this->placement_request_id != null;
+        return isset($this->placement_request_id);
     }
 
     public function is_pending(): bool {
@@ -521,14 +521,21 @@ function cleanse_data(string $data, mysqli $database_connection): string {
     return mysqli_escape_string($database_connection, $data);
 }
 
-function is_name_valid(string $name): bool {
-    return strlen($name) > 0;
+function is_detail_filled(string $detail): bool {
+    return strlen($detail) > 0;
 }
 
 function is_matriculation_number_valid(string $matriculation_number): bool {
-    $matriculation_number_regex = "/CO[S|T]/[0-9]{4}/20[0-9]{2}/";
+    $matriculation_number_regex = "/CO[S|T]\/[0-9]{4}\/20[0-9]{2}/";
 
     return preg_match($matriculation_number_regex, $matriculation_number);
+}
+
+function is_date_of_birth_valid(string $date_of_birth): bool {
+    $minimum_valid_date_of_birth = "1940-01-01";
+    $maximum_valid_date_of_birth = "2006-12-31";
+
+    return ($date_of_birth >= $minimum_valid_date_of_birth) && ($date_of_birth <= $maximum_valid_date_of_birth);
 }
 
 function is_email_address_valid(string $email_address): bool {

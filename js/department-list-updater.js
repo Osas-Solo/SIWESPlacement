@@ -1,5 +1,6 @@
 const collegeSelect = document.getElementById("college-select");
 const departmentSelect = document.getElementById("department-select");
+const previousSelectedDepartmentID = document.getElementById("department-id").innerHTML;
 
 updateDepartmentSelect();
 
@@ -25,6 +26,8 @@ function updateDepartmentSelect() {
 
                 departmentSelect.appendChild(option);
             }
+
+            selectDepartment(previousSelectedDepartmentID);
         }
     };
 
@@ -45,8 +48,6 @@ function selectDepartment(departmentID) {
     const numberOfDepartmentOptions = departmentSelect.childElementCount;
 
     for (let i = 0; i < numberOfDepartmentOptions; i++) {
-        console.log("Department: " + departmentSelect.children[i].innerHTML);
-
         const currentDepartmentOption = departmentSelect.children[i];
 
         if (departmentID == currentDepartmentOption.value) {
