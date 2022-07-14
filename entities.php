@@ -16,8 +16,8 @@ class Student {
     public State $state_of_origin;
     public string $institution;
     public Department $department;
-    public string $it_placement_letter_path;
-    public string $student_id_card_path;
+    public ?string $it_placement_letter_path;
+    public ?string $student_id_card_path;
     public string $gender;
 
     function __construct(mysqli $database_connection = null, string $matriculation_number = "", string $password = "") {
@@ -47,9 +47,9 @@ class Student {
                 $this->phone_number = $row["phone_number"];
                 $this->date_of_birth = $row["date_of_birth"];
                 $this->address = $row["address"];
-                $this->state_of_origin = new State($row["state_id"]);
+                $this->state_of_origin = new State($database_connection, $row["state_id"]);
                 $this->institution = $row["institution"];
-                $this->department = new Department($row["department_id"]);
+                $this->department = new Department($database_connection, $row["department_id"]);
                 $this->it_placement_letter_path = $row["it_placement_letter_path"];
                 $this->student_id_card_path = $row["student_id_card_path"];
 
@@ -120,9 +120,9 @@ class Student {
                 $current_student->phone_number = $row["phone_number"];
                 $current_student->date_of_birth = $row["date_of_birth"];
                 $current_student->address = $row["address"];
-                $current_student->state_of_origin = new State($row["state_id"]);
+                $current_student->state_of_origin = new State($database_connection, $row["state_id"]);
                 $current_student->institution = $row["institution"];
-                $current_student->department = new Department($row["department_id"]);
+                $current_student->department = new Department($database_connection, $row["department_id"]);
                 $current_student->it_placement_letter_path = $row["it_placement_letter_path"];
                 $current_student->student_id_card_path = $row["student_id_card_path"];
 
@@ -328,7 +328,7 @@ class PlacementOffer {
     public Organisation $organisation;
     public Department $department;
     public int $number_of_students;
-    public float $salary;
+    public ?float $salary;
     public bool $is_placement_full;
     public string $placement_reference;
 
