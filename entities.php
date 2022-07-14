@@ -294,10 +294,16 @@ class Department {
      * @param mysqli $database_connection
      * @return Department[]
      */
-    public static function get_departments(mysqli $database_connection): iterable {
+    public static function get_departments(mysqli $database_connection, string $college = ""): iterable {
+        $college = cleanse_data($college, $database_connection);
+
         $departments = array();
 
         $query = "SELECT * FROM departments";
+
+        if ($college != "") {
+            $query .= " WHERE college = '$college' ORDER BY department_id";
+        }
 
         $result = $database_connection->query($query);
 
@@ -364,13 +370,21 @@ class PlacementOffer {
      * @param mysqli $database_connection
      * @return PlacementOffer[]
      */
-    public static function get_placement_offers(mysqli $database_connection, string $placement_reference = ""): iterable {
+    public static function get_placement_offers(mysqli $database_connection, string $placement_reference = "",
+                                                string $department = ""): iterable {
         $placement_offers = array();
 
-        $query = "SELECT * FROM placement_offers";
+        $query = "SELECT * FROM placement_offers p 
+                    INNER JOIN departments d on p.department_id = d.department_id";
 
         if (!empty($placement_reference)) {
             $query .= " WHERE placement_reference = '$placement_reference'";
+
+            if (!empty($department)) {
+                $query .= " AND d.department_name = '$department'";
+            }
+        } else if (!empty($department)) {
+            $query .= " WHERE d.department_name = '$department'";
         }
 
         $result = $database_connection->query($query);
@@ -566,15 +580,15 @@ function convert_date_to_readable_form(string $reverse_date): string {
  * @param mysqli $database_connection
  * @return bool
  */
-function is_username_in_use(mysqli $database_connection): bool {
-    $is_username_in_use = false;
+function is_matriculation_number_in_use(mysqli $database_connection): bool {
+    $is_matriculation_number_in_use = false;
 
-    $member = new Member($database_connection, $_POST["username"]);
+    $student = new Student($database_connection, $_POST["matriculation-number"]);
 
-    if ($member->is_found()) {
-        $is_username_in_use = true;
+    if ($student->is_found()) {
+        $is_matriculation_number_in_use = true;
     }
 
-    return $is_username_in_use;   //  end of if username is null
+    return $is_matriculation_number_in_use;
 }
 ?>
