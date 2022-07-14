@@ -1,4 +1,10 @@
 <?php
+session_start();
+if (isset($_SESSION["matriculation-number"])) {
+    $dashboard_url = "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) . "/index.php";
+    header("Location: " . $dashboard_url);
+}
+
 $page_title = "Student Login";
 
 require_once "header.php";
@@ -36,6 +42,7 @@ if (isset($_POST["login"])) {
                                 </div>
                                 <div class="col-12">
                                     <button class="btn btn-primary d-block mx-auto" type="submit" name="login">Login</button>
+                                    <p class="mt-3 text-center">Not registered yet? <a href="signup.php">Signup as a student instead.</a></p>
                                 </div>
                             </div>
                         </form>

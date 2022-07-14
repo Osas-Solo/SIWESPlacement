@@ -162,6 +162,7 @@ $colleges = ["", "College of Science", "College of Technology"];
                                 </div>
                                 <div class="col-12 pt-5">
                                     <button class="btn btn-primary w-100" type="submit" name="signup">Sign Up</button>
+                                    <p class="mt-3 text-center">Already registered yet? <a href="login.php">Login as a student instead.</a></p>
                                 </div>
                             </div>
 
