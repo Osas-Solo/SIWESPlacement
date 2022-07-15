@@ -27,7 +27,7 @@ $placement_requests = PlacementRequest::get_placement_requests($database_connect
                             </tr>
                             <tr>
                                 <th class="p-2">Gender</th>
-                                <td class="p-2"><?php echo $student->gender?></td>
+                                <td class="p-2"><?php echo $student->get_gender()?></td>
                             </tr>
                             <tr>
                                 <th class="p-2">Email Address</th>

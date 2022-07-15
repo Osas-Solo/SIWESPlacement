@@ -58,8 +58,8 @@ $colleges = ["", "College of Science", "College of Technology"];
                                     <input type="password" class="form-control" name="password" placeholder="Password"
                                            required minlength="8">
                                     <div>
-                                        Please enter of password with an uppercase, lowercase and a number. Your
-                                        password should be at least 8 characters long.
+                                        Please enter a password with an uppercase letter, a lowercase letter and a digit.
+                                        Your password should be at least 8 characters long.
                                         <br>
                                         <span class="text-danger"><?php echo $password_error?></span>
                                     </div>

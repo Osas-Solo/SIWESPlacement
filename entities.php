@@ -52,15 +52,7 @@ class Student {
                 $this->department = new Department($database_connection, $row["department_id"]);
                 $this->it_placement_letter_path = $row["it_placement_letter_path"];
                 $this->student_id_card_path = $row["student_id_card_path"];
-
-                switch ($row["gender"]) {
-                    case 'M':
-                        $this->gender = "Male";
-                        break;
-                    case 'F':
-                        $this->gender = "Female";
-                        break;
-                }
+                $this->gender = $row["gender"];
             }
         }
     }
@@ -71,6 +63,15 @@ class Student {
 
     public function get_full_name() {
         return strtoupper($this->last_name) . " $this->first_name $this->middle_name";
+    }
+
+    public function get_gender() {
+        switch ($this->gender) {
+            case 'M':
+                return "Male";
+            case 'F':
+                return "Female";
+        }
     }
 
     function is_male(): bool {
@@ -591,7 +592,7 @@ function convert_date_to_readable_form(string $reverse_date): string {
     $month = $match_groups[2];
     $day = $match_groups[3];
 
-    $month = get_month($month - 1);
+    $month = get_month($month);
 
     return $month . " " . $day . ", " . $year;
 }
