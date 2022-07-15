@@ -112,7 +112,8 @@ function upload_documents(mysqli $database_connection, Student $student) {
 
     $update_query .= " WHERE user_id = $student->user_id";
 
-    if (empty($student_id_card_error) && empty($it_placement_letter_error)) {
+    if (empty($student_id_card_error) && empty($it_placement_letter_error) && isset($student_id_card_path) &&
+        isset($it_placement_letter_path)) {
         if ($database_connection->query($update_query)) {
             if (isset($student_id_card)) {
                 move_uploaded_file($student_id_card["tmp_name"], $student_id_card_path);
