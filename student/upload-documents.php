@@ -119,7 +119,7 @@ function upload_documents(mysqli $database_connection, Student $student) {
             }
 
             if (isset($it_placement_letter)) {
-                move_uploaded_file($student_id_card["tmp_name"], $it_placement_letter_path);
+                move_uploaded_file($it_placement_letter["tmp_name"], $it_placement_letter_path);
             }
 
             $alert = "<script>
