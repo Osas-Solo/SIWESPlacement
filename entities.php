@@ -86,12 +86,20 @@ class Student {
         return convert_date_to_readable_form($this->date_of_birth);
     }
 
-    function get_student_id_card(): string {
-        return "../img/student_id_cards/$this->student_id_card_path";
+    function get_student_id_card(): ?string {
+        if ($this->is_student_id_card_submitted()) {
+            return "../img/student_id_cards/$this->student_id_card_path";
+        }
+
+        return null;
     }
 
-    function get_it_placement_letter(): string {
-        return "../img/it_placement_letters/$this->it_placement_letter_path";
+    function get_it_placement_letter(): ?string {
+        if ($this->is_it_placement_letter_submitted()) {
+            return "../img/it_placement_letters/$this->it_placement_letter_path";
+        }
+
+        return null;
     }
 
     function is_student_id_card_submitted(): bool {
