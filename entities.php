@@ -85,12 +85,20 @@ class Student {
         return convert_date_to_readable_form($this->date_of_birth);
     }
 
+    function get_student_id_card(): string {
+        return "../img/student_id_cards/$this->student_id_card_path";
+    }
+
     function get_it_placement_letter(): string {
         return "../img/it_placement_letters/$this->it_placement_letter_path";
     }
 
-    function get_student_id_card(): string {
-        return "../img/student_id_cards/$this->student_id_card_path";
+    function is_student_id_card_submitted(): bool {
+        return isset($this->student_id_card_path);
+    }
+
+    function is_it_placement_letter_submitted(): bool {
+        return isset($this->it_placement_letter_path);
     }
 
     /**
@@ -488,10 +496,15 @@ class PlacementRequest {
      * @param mysqli $database_connection
      * @return PlacementRequest[]
      */
-    public static function get_placement_requests(mysqli $database_connection): iterable {
+    public static function get_placement_requests(mysqli $database_connection, string $matriculation_number = ""): iterable {
         $placement_requests = array();
 
-        $query = "SELECT * FROM placement_requests";
+        $query = "SELECT * FROM placement_requests p
+                    INNER JOIN students s on p.student_id = s.user_id";
+
+        if (!empty($matriculation_number)) {
+            $query .= " WHERE matriculation_number = '$matriculation_number'";
+        }
 
         $result = $database_connection->query($query);
 
@@ -581,6 +594,13 @@ function convert_date_to_readable_form(string $reverse_date): string {
     $month = get_month($month - 1);
 
     return $month . " " . $day . ", " . $year;
+}
+
+function get_month(int $month_number): string {
+    $months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
+        "November", "December"];
+
+    return $months[$month_number - 1];
 }
 
 /**
