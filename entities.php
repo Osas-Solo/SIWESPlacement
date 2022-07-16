@@ -388,7 +388,7 @@ class PlacementOffer {
      * @return PlacementOffer[]
      */
     public static function get_placement_offers(mysqli $database_connection, string $placement_reference = "",
-                                                string $department = ""): iterable {
+                                                string $department = "", bool $is_placement_full = null): iterable {
         $placement_offers = array();
 
         $query = "SELECT * FROM placement_offers p 
@@ -400,8 +400,18 @@ class PlacementOffer {
             if (!empty($department)) {
                 $query .= " AND d.department_name = '$department'";
             }
+
+            if (isset($is_placement_full)) {
+                $query .= " AND is_placement_full = $is_placement_full";
+            }
         } else if (!empty($department)) {
             $query .= " WHERE d.department_name = '$department'";
+
+            if (isset($is_placement_full)) {
+                $query .= " AND is_placement_full = $is_placement_full";
+            }
+        } else if (isset($is_placement_full)) {
+            $query .= " WHERE is_placement_full = $is_placement_full";
         }
 
         $result = $database_connection->query($query);
