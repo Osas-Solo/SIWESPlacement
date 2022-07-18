@@ -375,8 +375,12 @@ class PlacementOffer {
         return isset($this->placement_offer_id);
     }
 
+    public function is_salary_offered(): bool {
+        return $this->salary != null;
+    }
+
     public function get_salary(): ?string {
-        if ($this->salary != null) {
+        if ($this->is_salary_offered()) {
             return "&#8358;" . number_format($this->salary, 2);
         }
 
@@ -467,11 +471,16 @@ class PlacementRequest {
     public string $status;
     public string $acceptance_date;
 
-    function __construct(mysqli $database_connection = null, int $placement_offer_id = 0) {
+    function __construct(mysqli $database_connection = null, int $placement_offer_id = 0, string $matriculation_number = "") {
         if (isset($database_connection)) {
             $placement_offer_id = cleanse_data($placement_offer_id, $database_connection);
 
-            $query = "SELECT * FROM placement_offers WHERE placement_offer_id = $placement_offer_id";
+            $query = "SELECT * FROM placement_requests p
+                        INNER JOIN students s on p.student_id = s.user_id WHERE placement_offer_id = $placement_offer_id";
+
+            if (!empty($matriculation_number)) {
+                $query .= " AND matriculation_number = '$matriculation_number'";
+            }
 
             $result = $database_connection->query($query);
 
