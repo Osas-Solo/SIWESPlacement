@@ -205,6 +205,17 @@ class Organisation {
         return "../img/organisation_logos/$this->logo_path";
     }
 
+    public function display_description() {
+        echo "<ul>";
+        $split_description_lines = explode("\n", $this->description);
+
+        foreach ($split_description_lines as $line) {
+            echo "<li>$line</li>";
+        }
+
+        echo "</ul>";
+    }
+
     /**
      * @param mysqli $database_connection
      * @return Organisation[]
@@ -353,7 +364,9 @@ class PlacementOffer {
         if (isset($database_connection)) {
             $placement_offer_id = cleanse_data($placement_offer_id, $database_connection);
 
-            $query = "SELECT * FROM placement_offers WHERE placement_offer_id = $placement_offer_id";
+            $query = "SELECT * FROM placement_offers p 
+                        INNER JOIN organisations o on p.organisation_id = o.organisation_id
+                        WHERE placement_offer_id = $placement_offer_id";
 
             $result = $database_connection->query($query);
 
@@ -361,7 +374,7 @@ class PlacementOffer {
                 $row = $result->fetch_assoc();
 
                 $this->placement_offer_id = $row["placement_offer_id"];
-                $this->organisation = new Organisation($database_connection, $row["organisation_id"]);
+                $this->organisation = new Organisation($database_connection, $row["email_address"]);
                 $this->department = new Department($database_connection, $row["department_id"]);
                 $this->number_of_students = $row["number_of_students"];
                 $this->salary = $row["salary"];
@@ -395,7 +408,8 @@ class PlacementOffer {
                                                 string $department = "", bool $is_placement_full = null): iterable {
         $placement_offers = array();
 
-        $query = "SELECT * FROM placement_offers p 
+        $query = "SELECT * FROM placement_offers p     
+                    INNER JOIN organisations o on p.organisation_id = o.organisation_id
                     INNER JOIN departments d on p.department_id = d.department_id";
 
         if (!empty($placement_reference)) {
@@ -406,15 +420,21 @@ class PlacementOffer {
             }
 
             if (isset($is_placement_full)) {
+                $is_placement_full = ($is_placement_full) ? "true" : "false";
+
                 $query .= " AND is_placement_full = $is_placement_full";
             }
         } else if (!empty($department)) {
             $query .= " WHERE d.department_name = '$department'";
 
             if (isset($is_placement_full)) {
+                $is_placement_full = ($is_placement_full) ? "true" : "false";
+
                 $query .= " AND is_placement_full = $is_placement_full";
             }
         } else if (isset($is_placement_full)) {
+            $is_placement_full = ($is_placement_full) ? "true" : "false";
+
             $query .= " WHERE is_placement_full = $is_placement_full";
         }
 
@@ -425,7 +445,7 @@ class PlacementOffer {
                 $current_placement_offer = new PlacementOffer();
 
                 $current_placement_offer->placement_offer_id = $row["placement_offer_id"];
-                $current_placement_offer->organisation = new Organisation($database_connection, $row["organisation_id"]);
+                $current_placement_offer->organisation = new Organisation($database_connection, $row["email_address"]);
                 $current_placement_offer->department = new Department($database_connection, $row["department_id"]);
                 $current_placement_offer->number_of_students = $row["number_of_students"];
                 $current_placement_offer->salary = $row["salary"];
