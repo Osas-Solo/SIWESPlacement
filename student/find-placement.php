@@ -58,7 +58,7 @@ $distinct_department_placement_offers = PlacementOffer::get_distinct_placement_o
                                     <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                                         <div class="d-flex mb-3">
                                             <a class="btn btn-primary"
-                                               href="placement-offer?id=<?php echo $current_distinct_placement_offer->placement_offer_id?>">
+                                               href="placement-offer.php?id=<?php echo $current_distinct_placement_offer->placement_offer_id?>">
                                                 Apply Now
                                             </a>
                                         </div>
@@ -74,7 +74,7 @@ $distinct_department_placement_offers = PlacementOffer::get_distinct_placement_o
                                     <div class="col-12">
                                         <div class="text-center ps-4">
                                             <h5 class="mb-3">
-                                                Sorry, no placement is currently available. Please check back later.
+                                                Sorry, no placement offer is currently available. Please check back later.
                                             </h5>
                                         </div>
                                     </div>
@@ -113,7 +113,7 @@ $distinct_department_placement_offers = PlacementOffer::get_distinct_placement_o
                                             <div class="col-sm-12 col-md-4 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                                                 <div class="d-flex mb-3">
                                                     <a class="btn btn-primary"
-                                                       href="placement-offer?id=<?php echo $current_distinct_placement_offer->placement_offer_id?>">
+                                                       href="placement-offer.php?id=<?php echo $current_distinct_placement_offer->placement_offer_id?>">
                                                         Apply Now
                                                     </a>
                                                 </div>
@@ -129,7 +129,7 @@ $distinct_department_placement_offers = PlacementOffer::get_distinct_placement_o
                                         <div class="col-12">
                                             <div class="text-center ps-4">
                                                 <h5 class="mb-3">
-                                                    Sorry, no placement is currently available for your department. Please check back later.
+                                                    Sorry, no placement offered is currently available for your department. Please check back later.
                                                 </h5>
                                             </div>
                                         </div>

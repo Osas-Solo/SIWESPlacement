@@ -206,11 +206,11 @@ class Organisation {
     }
 
     public function display_description() {
-        echo "<ul>";
+        echo "<ul class='list-unstyled'>";
         $split_description_lines = explode("\n", $this->description);
 
         foreach ($split_description_lines as $line) {
-            echo "<li>$line</li>";
+            echo "<li><i class='fa fa-angle-right text-primary me-2'></i>$line</li>";
         }
 
         echo "</ul>";
