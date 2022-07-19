@@ -57,8 +57,13 @@ $placement_offer = new PlacementOffer($database_connection, $placement_offer_id)
         
                         <div class="">
                             <div class="col-12">
-                                <button class="btn btn-primary w-100" type="button">Request Placement</button>
+                                <button class="btn btn-primary w-100" type="button"
+                                        onclick="sendPlacementRequest('<?php echo $placement_offer->placement_reference?>')">
+                                    Request Placement
+                                </button>
                             </div>
+
+                            <script src="../js/placement-request.js"></script>
                         </div>
                     </div>
         

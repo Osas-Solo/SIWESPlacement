@@ -520,7 +520,7 @@ class PlacementRequest {
     public Student $student;
     public PlacementOffer $placement_offer;
     public string $status;
-    public string $acceptance_date;
+    public ?string $acceptance_date;
 
     function __construct(mysqli $database_connection = null, int $placement_offer_id = 0, string $matriculation_number = "") {
         if (isset($database_connection)) {
