@@ -33,27 +33,26 @@ $placement_offer = new PlacementOffer($database_connection, $placement_offer_id)
                                     ?>
                                     <span class="text-truncate me-0"><i class="far fa-money-bill-alt text-primary me-2"></i>
                                         <?php echo $placement_offer->get_salary()?>
-                                    </span>
+                                    </span><br>
                                     <?php
                                 }
                                 ?>
+                                <span class="text-truncate me-3"><i class="fa fa-phone-alt text-primary me-2"></i>
+                                                <?php echo $placement_offer->organisation->phone_number?></span><br>
+                                <span class="text-truncate me-3"><i class="fa fa-laptop text-primary me-2"></i>
+                                                <?php echo $placement_offer->organisation->email_address?></span><br>
                             </div>
                         </div>
 
-                        <div class="mb-5">
+                        <div class="my-5">
                             <h4 class="mb-3">Organisation description</h4>
                             <?php
                             $placement_offer->organisation->display_description();
                             ?>
-                            <h4 class="mb-3">Qualifications</h4>
-                            <p>Magna et elitr diam sed lorem. Diam diam stet erat no est est. Accusam sed lorem stet voluptua sit sit at stet consetetur, takimata at diam kasd gubergren elitr dolor</p>
-                            <ul class="list-unstyled">
-                                <li><i class="fa fa-angle-right text-primary me-2"></i>Dolor justo tempor duo ipsum accusam</li>
-                                <li><i class="fa fa-angle-right text-primary me-2"></i>Elitr stet dolor vero clita labore gubergren</li>
-                                <li><i class="fa fa-angle-right text-primary me-2"></i>Rebum vero dolores dolores elitr</li>
-                                <li><i class="fa fa-angle-right text-primary me-2"></i>Est voluptua et sanctus at sanctus erat</li>
-                                <li><i class="fa fa-angle-right text-primary me-2"></i>Diam diam stet erat no est est</li>
-                            </ul>
+                            <h4 class="mb-3">Department(s) offered</h4>
+                            <?php
+                            $placement_offer->display_departments($database_connection);
+                            ?>
                         </div>
         
                         <div class="">
@@ -85,13 +84,18 @@ $placement_offer = new PlacementOffer($database_connection, $placement_offer_id)
         
                     <div class="col-lg-4">
                         <div class="bg-light rounded p-5 mb-4 wow slideInUp" data-wow-delay="0.1s">
-                            <h4 class="mb-4">Job Summery</h4>
-                            <p><i class="fa fa-angle-right text-primary me-2"></i>Published On: 01 Jan, 2045</p>
-                            <p><i class="fa fa-angle-right text-primary me-2"></i>Vacancy: 123 Position</p>
-                            <p><i class="fa fa-angle-right text-primary me-2"></i>Job Nature: Full Time</p>
-                            <p><i class="fa fa-angle-right text-primary me-2"></i>Salary: $123 - $456</p>
-                            <p><i class="fa fa-angle-right text-primary me-2"></i>Location: New York, USA</p>
-                            <p class="m-0"><i class="fa fa-angle-right text-primary me-2"></i>Date Line: 01 Jan, 2045</p>
+                            <h4 class="mb-4">Placement Offer Summary</h4>
+                            <p><i class="fa fa-angle-right text-primary me-2"></i><b>Salary:</b>
+                                <?php
+                                if ($placement_offer->is_salary_offered()) {
+                                    echo $placement_offer->get_salary();
+                                } else {
+                                    echo "No salary offered";
+                                }
+                                ?>
+                            </p>
+                            <p><i class="fa fa-angle-right text-primary me-2"></i><b>Location:</b>
+                                <?php echo $placement_offer->organisation->address?></p>
                         </div>
                         <div class="bg-light rounded p-5 wow slideInUp" data-wow-delay="0.1s">
                             <h4 class="mb-4">Company Detail</h4>

@@ -210,7 +210,7 @@ class Organisation {
         $split_description_lines = explode("\n", $this->description);
 
         foreach ($split_description_lines as $line) {
-            echo "<li><i class='fa fa-angle-right text-primary me-2'></i>$line</li>";
+            echo "<li class='mb-2'><i class='fa fa-angle-right text-primary me-2'></i>$line</li>";
         }
 
         echo "</ul>";
@@ -400,6 +400,37 @@ class PlacementOffer {
         return null;
     }
 
+    public function display_departments(mysqli $database_connection) {
+        $placement_offers = PlacementOffer::get_placement_offers($database_connection, $this->placement_reference,
+            is_placement_full: false);
+
+        echo "<ul class='list-unstyled'>";
+        foreach ($placement_offers as $current_placement_offer) {
+            $number_of_students_allowed = $current_placement_offer->calculate_number_of_students_allowed($database_connection);
+
+            $department_detail = "<li><i class='fa fa-angle-right text-primary me-2'></i>" .
+                $current_placement_offer->department->department_name;
+
+            $department_detail .= " - $number_of_students_allowed" . (($number_of_students_allowed == 1) ? " student" :
+                    " students") . " allowed";
+
+            $department_detail .= "</li>";
+
+            echo $department_detail;
+        }
+
+        echo "</ul>";
+    }
+
+    public function calculate_number_of_students_allowed(mysqli $database_connection): int {
+        $placement_requests = PlacementRequest::get_placement_requests($database_connection, $this->placement_offer_id,
+            status: "Approved");
+
+        $number_of_placement_requests = count($placement_requests);
+
+        return $this->number_of_students - $number_of_placement_requests;
+    }
+
     /**
      * @param mysqli $database_connection
      * @return PlacementOffer[]
@@ -544,14 +575,31 @@ class PlacementRequest {
      * @param mysqli $database_connection
      * @return PlacementRequest[]
      */
-    public static function get_placement_requests(mysqli $database_connection, string $matriculation_number = ""): iterable {
+    public static function get_placement_requests(mysqli $database_connection, int $placement_offer_id = 0,
+                                                  string $matriculation_number = "", string $status = ""): iterable {
         $placement_requests = array();
 
         $query = "SELECT * FROM placement_requests p
                     INNER JOIN students s on p.student_id = s.user_id";
 
-        if (!empty($matriculation_number)) {
+        if ($placement_offer_id != 0) {
+            $query .= " WHERE placement_offer_id = $placement_offer_id";
+
+            if (!empty($matriculation_number)) {
+                $query .= " AND matriculation_number = '$matriculation_number'";
+            }
+
+            if (!empty($status)) {
+                $query .= " AND status = '$status'";;
+            }
+        } else if (!empty($matriculation_number)) {
             $query .= " WHERE matriculation_number = '$matriculation_number'";
+
+            if (!empty($status)) {
+                $query .= " AND status = '$status'";;
+            }
+        } else if (!empty($status)) {
+            $query .= " WHERE status = '$status'";;
         }
 
         $result = $database_connection->query($query);
