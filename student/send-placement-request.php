@@ -13,9 +13,14 @@ if (!isset($_POST["placement-reference"])) {
 
 $alert_message = "";
 
-$placement_offers = PlacementOffer::get_placement_offers($database_connection, $placement_reference, $student->department->department_name);
+$placement_offers = PlacementOffer::get_placement_offers($database_connection, $placement_reference,
+    $student->department->department_name);
+$placement_requests = PlacementRequest::get_placement_requests($database_connection, $placement_offers[0]->placement_offer_id,
+    $student->matriculation_number, "Pending");
 
-if (count($placement_offers)) {
+if (count($placement_requests)) {
+    $alert_message = "Sorry, you already have a pending placement request with this organisation.";
+} else if (count($placement_offers)) {
     if ($placement_offers[0]->is_placement_full) {
         $alert_message = "Sorry, the placement quota for your department at this organisation is filled up.";
     } else {

@@ -4,6 +4,11 @@ $page_title = "Student Signup";
 require_once "header.php";
 require_once "../entities.php";
 
+if (isset($_SESSION["matriculation-number"])) {
+    session_unset();
+    session_destroy();
+}
+
 $password_error = "Please enter a valid password.";
 
 $first_name_error = $last_name_error = $matriculation_number_error = $confirm_password_error = $email_address_error =
