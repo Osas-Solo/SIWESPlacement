@@ -30,17 +30,8 @@ if (count($placement_offers)) {
             $last_placement_request_index = count($placement_requests) - 1;
             $placement_request_id = $placement_requests[$last_placement_request_index]->placement_request_id;
 
-            $alert = "<script>
-                    if (confirm('Placement request sent successfully.')) {";
-            $view_placement_request_url = "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) .
+            $alert_message = $view_placement_request_url = "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) .
                 "/view-placement-request.php?id=" . $placement_request_id;
-            $alert .= "window.location.replace('$view_placement_request_url');
-                    } else {";
-            $alert .= "window.location.replace('$view_placement_request_url');
-                    }";
-            $alert .= "</script>";
-
-            echo $alert;
         }
     }
 } else {

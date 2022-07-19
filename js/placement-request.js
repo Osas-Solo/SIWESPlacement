@@ -3,7 +3,17 @@ function sendPlacementRequest(placementReference) {
 
     placementRequest.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            alert(this.responseText);
+            if (this.responseText.includes("view-placement-request.php")) {
+                const viewPlacementRequestURL = this.responseText;
+
+                if (confirm("Placement request sent successfully.")) {
+                    window.location.replace(viewPlacementRequestURL);
+                } else {
+                    window.location.replace(viewPlacementRequestURL);
+                }
+            } else {
+                alert(this.responseText);
+            }
         }
     };
 
