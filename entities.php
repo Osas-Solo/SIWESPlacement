@@ -522,15 +522,15 @@ class PlacementRequest {
     public string $status;
     public ?string $acceptance_date;
 
-    function __construct(mysqli $database_connection = null, int $placement_offer_id = 0, string $matriculation_number = "",
-                            int $organisation_id = 0) {
+    function __construct(mysqli $database_connection = null, int $placement_request_id = 0, string $matriculation_number = "",
+                         int $organisation_id = 0) {
         if (isset($database_connection)) {
-            $placement_offer_id = cleanse_data($placement_offer_id, $database_connection);
+            $placement_request_id = cleanse_data($placement_request_id, $database_connection);
 
             $query = "SELECT * FROM placement_requests p
                         INNER JOIN students s on p.student_id = s.user_id
                         INNER JOIN placement_offers po on p.placement_offer_id = po.placement_offer_id
-                        WHERE p.placement_offer_id = $placement_offer_id";
+                        WHERE placement_request_id = $placement_request_id";
 
             if (!empty($matriculation_number)) {
                 $query .= " AND matriculation_number = '$matriculation_number'";
@@ -545,7 +545,7 @@ class PlacementRequest {
             if ($result->num_rows) {
                 $row = $result->fetch_assoc();
 
-                $this->placement_request_id = $row["placement_offer_id"];
+                $this->placement_request_id = $row["placement_request_id"];
                 $this->student = new Student($database_connection, $row["student_id"]);
                 $this->placement_offer = new PlacementOffer($database_connection, $row["placement_offer_id"]);
                 $this->status = $row["status"];
@@ -630,7 +630,7 @@ class PlacementRequest {
             while ($row = $result->fetch_assoc()) {
                 $current_placement_request = new PlacementRequest();
 
-                $current_placement_request->placement_request_id = $row["placement_offer_id"];
+                $current_placement_request->placement_request_id = $row["placement_request_id"];
                 $current_placement_request->student = new Student($database_connection, $row["student_id"]);
                 $current_placement_request->placement_offer = new PlacementOffer($database_connection, $row["placement_offer_id"]);
                 $current_placement_request->status = $row["status"];
