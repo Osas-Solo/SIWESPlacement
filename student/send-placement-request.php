@@ -15,11 +15,14 @@ $alert_message = "";
 
 $placement_offers = PlacementOffer::get_placement_offers($database_connection, $placement_reference,
     $student->department->department_name);
-$placement_requests = PlacementRequest::get_placement_requests($database_connection, $placement_offers[0]->placement_offer_id,
-    $student->matriculation_number, "Pending");
+$placement_requests = PlacementRequest::get_placement_requests($database_connection, placement_offer_id: $placement_offers[0]->placement_offer_id,
+    matriculation_number: $student->matriculation_number, status: "Pending");
 
-if (count($placement_requests)) {
-    $alert_message = "Sorry, you already have a pending placement request with this organisation.";
+if (!$student->is_student_id_card_submitted() || !$student->is_it_placement_letter_submitted()) {
+    $alert_message = $upload_documents_url = "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) .
+        "/upload-documents.php";
+} else if (count($placement_requests)) {
+    $alert_message = "You already have a pending placement request with this organisation.";
 } else if (count($placement_offers)) {
     if ($placement_offers[0]->is_placement_full) {
         $alert_message = "Sorry, the placement quota for your department at this organisation is filled up.";

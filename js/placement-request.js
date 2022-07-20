@@ -11,6 +11,15 @@ function sendPlacementRequest(placementReference) {
                 } else {
                     window.location.replace(viewPlacementRequestURL);
                 }
+            } else if (this.responseText.includes("upload-documents.php")) {
+                const uploadDocumentsURL = this.responseText;
+
+                if (confirm("Sorry you'd need to upload both your student ID card and IT placement letter before " +
+                    "sending a placement request.")) {
+                    window.location.replace(uploadDocumentsURL);
+                } else {
+                    window.location.replace(uploadDocumentsURL);
+                }
             } else {
                 alert(this.responseText);
             }

@@ -1,5 +1,5 @@
 <?php
-$page_title = "Student Upload Documents";
+$page_title = "Upload Documents";
 
 require_once "dashboard-header.php";
 

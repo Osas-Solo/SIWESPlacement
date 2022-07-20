@@ -4,6 +4,7 @@ $page_title = "Student Signup";
 require_once "header.php";
 require_once "../entities.php";
 
+session_start();
 if (isset($_SESSION["matriculation-number"])) {
     session_unset();
     session_destroy();

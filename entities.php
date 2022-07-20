@@ -522,15 +522,22 @@ class PlacementRequest {
     public string $status;
     public ?string $acceptance_date;
 
-    function __construct(mysqli $database_connection = null, int $placement_offer_id = 0, string $matriculation_number = "") {
+    function __construct(mysqli $database_connection = null, int $placement_offer_id = 0, string $matriculation_number = "",
+                            int $organisation_id = 0) {
         if (isset($database_connection)) {
             $placement_offer_id = cleanse_data($placement_offer_id, $database_connection);
 
             $query = "SELECT * FROM placement_requests p
-                        INNER JOIN students s on p.student_id = s.user_id WHERE placement_offer_id = $placement_offer_id";
+                        INNER JOIN students s on p.student_id = s.user_id
+                        INNER JOIN placement_offers po on p.placement_offer_id = po.placement_offer_id
+                        WHERE p.placement_offer_id = $placement_offer_id";
 
             if (!empty($matriculation_number)) {
                 $query .= " AND matriculation_number = '$matriculation_number'";
+            }
+
+            if ($organisation_id != 0) {
+                $query .= " AND p.organisation_id = $organisation_id";
             }
 
             $result = $database_connection->query($query);
@@ -576,17 +583,22 @@ class PlacementRequest {
      * @return PlacementRequest[]
      */
     public static function get_placement_requests(mysqli $database_connection, int $placement_offer_id = 0,
-                                                  string $matriculation_number = "", string $status = ""): iterable {
+                                                  string $matriculation_number = "", int $organisation_id = 0, string $status = ""): iterable {
         $placement_requests = array();
 
         $query = "SELECT * FROM placement_requests p
-                    INNER JOIN students s on p.student_id = s.user_id";
+                    INNER JOIN students s on p.student_id = s.user_id
+                    INNER JOIN placement_offers po on p.placement_offer_id = po.placement_offer_id";
 
         if ($placement_offer_id != 0) {
-            $query .= " WHERE placement_offer_id = $placement_offer_id";
+            $query .= " WHERE p.placement_offer_id = $placement_offer_id";
 
             if (!empty($matriculation_number)) {
                 $query .= " AND matriculation_number = '$matriculation_number'";
+            }
+
+            if ($organisation_id != 0) {
+                $query .= " AND p.organisation_id = $organisation_id";
             }
 
             if (!empty($status)) {
@@ -594,6 +606,16 @@ class PlacementRequest {
             }
         } else if (!empty($matriculation_number)) {
             $query .= " WHERE matriculation_number = '$matriculation_number'";
+
+            if ($organisation_id != 0) {
+                $query .= " AND p.organisation_id = $organisation_id";
+            }
+
+            if (!empty($status)) {
+                $query .= " AND status = '$status'";;
+            }
+        } else if ($organisation_id != 0) {
+            $query .= " WHERE p.organisation_id = $organisation_id";
 
             if (!empty($status)) {
                 $query .= " AND status = '$status'";;
