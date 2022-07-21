@@ -75,11 +75,11 @@ class Student {
     }
 
     function is_male(): bool {
-        return $this->gender == "Male";
+        return $this->gender == "M";
     }
 
     function is_female(): bool {
-        return $this->gender == "Female";
+        return $this->gender == "F";
     }
 
     function get_date_of_birth(): string {

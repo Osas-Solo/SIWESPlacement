@@ -4,7 +4,7 @@
         <div class="copyright">
             <div class="row">
                 <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                    &copy;<?php echo date("Y")?> <a class="border-bottom" href="index.php">SIWES Placement</a>, All Right Reserved.
+                    &copy;<?php echo date("Y")?> <a class="border-bottom" href="../index.php">SIWES Placement</a>, All Right Reserved.
                 </div>
             </div>
         </div>

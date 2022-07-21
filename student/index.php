@@ -18,35 +18,44 @@ require_once "dashboard-header.php";
                                 <td class="p-2"><?php echo $student->get_full_name()?></td>
                             </tr>
                             <tr>
-                                <th class="p-2">Matriculation Number</th>
+                                <th class="p-2">Matriculation Number<i class="fa fa-id-card text-primary ms-1"></i></th>
                                 <td class="p-2"><?php echo $student->matriculation_number?></td>
                             </tr>
                             <tr>
                                 <th class="p-2">Gender</th>
-                                <td class="p-2"><?php echo $student->get_gender()?></td>
+                                <td class="p-2">
+                                    <?php
+                                    echo $student->get_gender();
+                                    if ($student->is_male()) {
+                                        echo "<i class='fa fa-male text-primary ms-1'></i>";
+                                    } else if ($student->is_female()) {
+                                        echo "<i class='fa fa-female text-primary ms-1'></i>";
+                                    }
+                                    ?>
+                                </td>
                             </tr>
                             <tr>
-                                <th class="p-2">Email Address</th>
+                                <th class="p-2">Email Address<i class="fa fa-laptop text-primary ms-1"></i></th>
                                 <td class="p-2"><?php echo $student->email_address?></td>
                             </tr>
                             <tr>
-                                <th class="p-2">Phone Number</th>
+                                <th class="p-2">Phone Number<i class="fa fa-phone-alt text-primary ms-1"></i></th>
                                 <td class="p-2"><?php echo $student->phone_number?></td>
                             </tr>
                             <tr>
-                                <th class="p-2">Date of Birth</th>
+                                <th class="p-2">Date of Birth<i class="fa fa-calendar-day text-primary ms-1"></i></th>
                                 <td class="p-2"><?php echo $student->get_date_of_birth()?></td>
                             </tr>
                             <tr>
-                                <th class="p-2">Address</th>
+                                <th class="p-2">Address<i class="fa fa-home text-primary ms-1"></i></th>
                                 <td class="p-2"><?php echo $student->address?></td>
                             </tr>
                             <tr>
-                                <th class="p-2">State of Origin</th>
+                                <th class="p-2">State of Origin<i class="fa fa-map text-primary ms-1"></i></th>
                                 <td class="p-2"><?php echo $student->state_of_origin->state_name?></td>
                             </tr>
                             <tr>
-                                <th class="p-2">Institution</th>
+                                <th class="p-2">Institution<i class="fa fa-building text-primary ms-1"></i></th>
                                 <td class="p-2"><?php echo $student->institution?></td>
                             </tr>
                             <tr>
