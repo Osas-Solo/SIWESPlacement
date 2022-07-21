@@ -163,12 +163,15 @@ $colleges = ["", "College of Science", "College of Technology"];
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label text-primary" for="address">Address <span class="text-danger">*</span></label>
-                                    <textarea class="form-control" name="address" rows="5" placeholder="Address"><?php echo $address?></textarea>
+                                    <textarea class="form-control" name="address" rows="5" placeholder="Address"
+                                              required><?php echo $address?></textarea>
                                     <div class="text-danger" id="address-error-message"><?php echo $address_error?></div>
                                 </div>
                                 <div class="col-12 pt-5">
                                     <button class="btn btn-primary w-100" type="submit" name="signup">Sign Up</button>
-                                    <p class="mt-3 text-center">Already registered yet? <a href="login.php">Login as a student instead.</a></p>
+                                    <p class="mt-3 text-center">
+                                        Already registered yet? <a href="login.php">Login as a student instead.</a>
+                                    </p>
                                 </div>
                             </div>
 

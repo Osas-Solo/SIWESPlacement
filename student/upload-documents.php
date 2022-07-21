@@ -27,7 +27,7 @@ if (isset($_POST["upload"])) {
                                 <input type="file" class="form-control-file form-control" name="student-id-card"
                                        accept="image/jpeg" onchange="previewMedia(event, 'photo-preview')">
                                 <img src="<?php echo $student_id_card_path?>" id="photo-preview"
-                                     class="img-fluid d-block border mt-2">
+                                     alt="Student ID Card Preview" class="img-fluid d-block border mt-2">
                                 <div class="text-danger" id="student-id-card-error-message">
                                     <?php echo $student_id_card_error?>
                                 </div>
@@ -44,7 +44,7 @@ if (isset($_POST["upload"])) {
                                 <input type="file" class="form-control-file form-control" name="it-placement-letter"
                                        accept="application/pdf" onchange="previewMedia(event, 'document-preview')">
                                 <iframe class="mt-2 w-100 h-75" src="<?php echo $it_placement_letter_path?>"
-                                        id="document-preview"></iframe>
+                                        alt="IT Placement Letter Preview" id="document-preview"></iframe>
                                 <div class="text-danger" id="it-placement-letter-error-message">
                                     <?php echo $it_placement_letter_error?>
                                 </div>

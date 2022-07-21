@@ -736,4 +736,20 @@ function is_matriculation_number_in_use(mysqli $database_connection): bool {
 
     return $is_matriculation_number_in_use;
 }
+
+/**
+ * @param mysqli $database_connection
+ * @return bool
+ */
+function is_email_address_in_use(mysqli $database_connection): bool {
+    $is_email_address_in_use = false;
+
+    $organisation = new Organisation($database_connection, $_POST["email-address"]);
+
+    if ($organisation->is_found()) {
+        $is_email_address_in_use = true;
+    }
+
+    return $is_email_address_in_use;
+}
 ?>
