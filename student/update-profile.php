@@ -1,5 +1,5 @@
 <?php
-$page_title = "Student Update Profile";
+$page_title = "Update Student Profile";
 
 require_once "dashboard-header.php";
 
