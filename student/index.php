@@ -2,10 +2,6 @@
 $page_title = "Student Dashboard";
 
 require_once "dashboard-header.php";
-
-$placement_offers = PlacementOffer::get_placement_offers($database_connection, "",
-    $student->department->department_name);
-$placement_requests = PlacementRequest::get_placement_requests($database_connection, matriculation_number: $student->matriculation_number);
 ?>
 
 <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
@@ -63,7 +59,6 @@ $placement_requests = PlacementRequest::get_placement_requests($database_connect
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
     </div>
