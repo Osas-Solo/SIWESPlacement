@@ -44,7 +44,7 @@ $organisation = new Organisation($database_connection, $_SESSION["organisation-e
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow sticky-top p-0">
         <a href="../index.php" class="navbar-brand d-flex align-items-center text-center py-0 px-4 px-lg-5">
-            <h1 class="m-0 text-primary">SIWES Placement</h1>
+            <h4 class="m-0 text-primary">SIWES Placement</h4>
         </a>
         <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -53,6 +53,7 @@ $organisation = new Organisation($database_connection, $_SESSION["organisation-e
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="index.php" class="nav-item nav-link active">Dashboard</a>
                 <a href="post-placement.php" class="nav-item nav-link">Post Placement<i class="fa fa-file text-primary ms-1"></i></a>
+                <a href="placement-requests.php" class="nav-item nav-link">Placement Offers<i class="fa fa-file-alt text-primary ms-1"></i></a>
                 <a href="placement-requests.php" class="nav-item nav-link">Placement Requests<i class="fa fa-mail-bulk text-primary ms-1"></i></a>
                 <a href="update-profile.php" class="nav-item nav-link">Update Profile<i class="fa fa-user text-primary ms-1"></i></a>
                 <a href="logout.php" class="nav-item nav-link">Logout<i class="fa fa-user-slash text-primary ms-1"></i></a>
