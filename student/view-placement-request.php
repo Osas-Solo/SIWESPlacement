@@ -77,7 +77,6 @@ $placement_request = new PlacementRequest($database_connection, placement_reques
                 <?php
                 }
                 ?>
-                ?>
             </div>
         </div>
     </div>

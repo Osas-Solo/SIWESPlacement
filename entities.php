@@ -537,7 +537,7 @@ class PlacementRequest {
             }
 
             if ($organisation_id != 0) {
-                $query .= " AND p.organisation_id = $organisation_id";
+                $query .= " AND organisation_id = $organisation_id";
             }
 
             $result = $database_connection->query($query);
@@ -546,7 +546,7 @@ class PlacementRequest {
                 $row = $result->fetch_assoc();
 
                 $this->placement_request_id = $row["placement_request_id"];
-                $this->student = new Student($database_connection, $row["student_id"]);
+                $this->student = new Student($database_connection, $row["matriculation_number"]);
                 $this->placement_offer = new PlacementOffer($database_connection, $row["placement_offer_id"]);
                 $this->status = $row["status"];
                 $this->acceptance_date = $row["acceptance_date"];
@@ -631,7 +631,7 @@ class PlacementRequest {
                 $current_placement_request = new PlacementRequest();
 
                 $current_placement_request->placement_request_id = $row["placement_request_id"];
-                $current_placement_request->student = new Student($database_connection, $row["student_id"]);
+                $current_placement_request->student = new Student($database_connection, $row["matriculation_number"]);
                 $current_placement_request->placement_offer = new PlacementOffer($database_connection, $row["placement_offer_id"]);
                 $current_placement_request->status = $row["status"];
                 $current_placement_request->acceptance_date = $row["acceptance_date"];
