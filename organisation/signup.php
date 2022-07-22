@@ -14,7 +14,7 @@ $password_error = "Please enter a valid password.";
 $organisation_name_error = $confirm_password_error = $email_address_error = $phone_number_error = $address_error =
     $description_error = $logo_error = "";
 
-$organisation_name = $email_address = $phone_number = $address = $state_of_origin = $description = $department = "";
+$organisation_name = $email_address = $phone_number = $address = $description = "";
 
 if (isset($_POST["signup"])) {
     signup_organisation($database_connection);

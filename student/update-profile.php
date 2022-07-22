@@ -4,7 +4,7 @@ $page_title = "Update Student Profile";
 require_once "dashboard-header.php";
 
 $first_name_error = $last_name_error = $matriculation_number_error = $password_error = $confirm_password_error = $email_address_error =
-$phone_number_error = $date_of_birth_error = $address_error = $state_of_origin_error = $college_error = $department_error = "";
+    $phone_number_error = $date_of_birth_error = $address_error = $state_of_origin_error = $college_error = $department_error = "";
 
 $first_name = $student->first_name;
 $middle_name = $student->middle_name;
@@ -284,9 +284,33 @@ function update_profile(mysqli $database_connection, Student $student) {
             $update_query .= ", password = SHA('$password')";
         }
 
+        if ($student->is_student_id_card_submitted()) {
+            $target_directory = "../img/student_id_cards/";
+            $old_id_card_file = str_replace("/", "_", $student->matriculation_number) . "_id_card.jpg";
+            $new_id_card_file = str_replace("/", "_", $matriculation_number) . "_id_card.jpg";
+
+            rename($target_directory . $old_id_card_file, $target_directory . $new_id_card_file);
+
+            $update_query .= ", student_id_card_path = '$new_id_card_file'";
+        }
+
+        if ($student->is_it_placement_letter_submitted()) {
+            $target_directory = "../img/it_placement_letters/";
+            $old_it_placement_letter_file = str_replace("/", "_", $student->matriculation_number) .
+                "_it_placement_letter.pdf";
+            $new_it_placement_letter_file = str_replace("/", "_", $matriculation_number) .
+                "_it_placement_letter.pdf";
+
+            rename($target_directory . $old_it_placement_letter_file, $target_directory . $new_it_placement_letter_file);
+
+            $update_query .= ", it_placement_letter_path = '$new_it_placement_letter_file'";
+        }
+
         $update_query .= " WHERE user_id = $student->user_id";
 
         if ($database_connection->query($update_query)) {
+            $_SESSION["matriculation-number"] = $matriculation_number;
+
             $alert = "<script>
                         if (confirm('You\'ve successfully updated your profile.')) {";
             $dashboard_url = "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) . "/index.php";
