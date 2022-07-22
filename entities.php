@@ -598,7 +598,7 @@ class PlacementRequest {
             }
 
             if ($organisation_id != 0) {
-                $query .= " AND p.organisation_id = $organisation_id";
+                $query .= " AND organisation_id = $organisation_id";
             }
 
             if (!empty($status)) {
@@ -608,14 +608,14 @@ class PlacementRequest {
             $query .= " WHERE matriculation_number = '$matriculation_number'";
 
             if ($organisation_id != 0) {
-                $query .= " AND p.organisation_id = $organisation_id";
+                $query .= " AND organisation_id = $organisation_id";
             }
 
             if (!empty($status)) {
                 $query .= " AND status = '$status'";;
             }
         } else if ($organisation_id != 0) {
-            $query .= " WHERE p.organisation_id = $organisation_id";
+            $query .= " WHERE organisation_id = $organisation_id";
 
             if (!empty($status)) {
                 $query .= " AND status = '$status'";;
