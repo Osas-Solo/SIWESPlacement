@@ -411,7 +411,7 @@ class PlacementOffer {
             $department_detail = "<li><i class='fa fa-angle-right text-primary me-2'></i>" .
                 $current_placement_offer->department->department_name;
 
-            $department_detail .= " - $number_of_students_allowed" . (($number_of_students_allowed == 1) ? " student" :
+            $department_detail .= " - $number_of_students_allowed" . (($number_of_students_allowed <= 1) ? " student" :
                     " students") . " allowed";
 
             $department_detail .= "</li>";
@@ -424,7 +424,7 @@ class PlacementOffer {
 
     public function calculate_number_of_students_allowed(mysqli $database_connection): int {
         $placement_requests = PlacementRequest::get_placement_requests($database_connection, $this->placement_offer_id,
-            status: "Approved");
+            status: "Accepted");
 
         $number_of_placement_requests = count($placement_requests);
 
@@ -623,6 +623,8 @@ class PlacementRequest {
         } else if (!empty($status)) {
             $query .= " WHERE status = '$status'";;
         }
+
+        $query .= " ORDER BY status";
 
         $result = $database_connection->query($query);
 

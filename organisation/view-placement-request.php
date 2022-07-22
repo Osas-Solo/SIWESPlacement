@@ -26,7 +26,7 @@ $placement_request = new PlacementRequest($database_connection, placement_reques
                     <table class="table table-striped table-hover table-sm text-center mb-5">
                         <tbody>
                         <tr>
-                            <th class="p-2">Name</th>
+                            <th class="p-2">Student Name</th>
                             <td class="p-2"><?php echo $placement_request->student->get_full_name()?></td>
                         </tr>
                         <tr>
@@ -75,6 +75,20 @@ $placement_request = new PlacementRequest($database_connection, placement_reques
                             <td class="p-2"><?php echo $placement_request->student->department->department_name?></td>
                         </tr>
                         <tr>
+                            <th class="p-2 align-middle">Student ID Card<i class="fa fa-id-card text-primary ms-1"></i></th>
+                            <td class="p-2">
+                                <img src="<?php echo $placement_request->student->get_student_id_card()?>"
+                                     alt="Student ID Card" class="img-thumbnail d-block border">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="p-2 align-middle">Student IT Placement Letter<i class="fa fa-file text-primary ms-1"></i></th>
+                            <td class="p-2">
+                                <iframe class="w-100 h-100" src="<?php echo $placement_request->student->get_it_placement_letter()?>"
+                                        alt="IT Placement Letter"></iframe>
+                            </td>
+                        </tr>
+                        <tr>
                             <th class="p-2">Status</th>
                             <td class="p-2 <?php
                             if ($placement_request->is_pending()) {
@@ -106,15 +120,19 @@ $placement_request = new PlacementRequest($database_connection, placement_reques
                     ?>
                     <div class="row mt-5">
                         <div class="col-12 col-sm-4 mx-auto mb-3">
-                            <button class="btn btn-success d-block mx-auto" type="button">
+                            <button class="btn btn-success d-block mx-auto" type="button"
+                                onclick="respondToPlacementRequestResponderRequest('Accepted', <?php echo $placement_request->placement_request_id?>)">
                                 Accept Request
                             </button>
                         </div>
                         <div class="col-12 col-sm-4 mx-auto">
-                            <button class="btn btn-danger d-block mx-auto" type="button">
+                            <button class="btn btn-danger d-block mx-auto" type="button"
+                                    onclick="respondToPlacementRequestResponderRequest('Rejected', <?php echo $placement_request->placement_request_id?>)">
                                 Reject Request
                             </button>
                         </div>
+
+                        <script src="../js/placement-request-responder.js"></script>
                     </div>
                     <?php
                     }
