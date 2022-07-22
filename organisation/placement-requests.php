@@ -21,12 +21,14 @@ $placement_requests = PlacementRequest::get_placement_requests($database_connect
                                 <div class="job-item p-4 mb-4">
                                     <div class="row g-4">
                                         <div class="col-sm-12 col-md-8 d-flex align-items-center">
-                                            <img class="flex-shrink-0 img-fluid border rounded"
-                                                 src="<?php echo $current_placement_request->placement_offer->organisation->get_logo()?>"
-                                                 alt="Organisation Logo" style="width: 100px; height: 60px;">
                                             <div class="text-start ps-4">
                                                 <h5>
-                                                    <?php echo $current_placement_request->placement_offer->organisation->organisation_name?>
+                                                    <?php echo $current_placement_request->student->matriculation_number?>
+                                                </h5>
+                                            </div>
+                                            <div class="text-start ps-4">
+                                                <h5>
+                                                    <?php echo $current_placement_request->student->get_full_name()?>
                                                 </h5>
                                             </div>
                                         </div>
