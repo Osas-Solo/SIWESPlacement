@@ -75,6 +75,7 @@ require_once "footer.php";
 
 function upload_documents(mysqli $database_connection, Student $student) {
     global $student_id_card_error, $it_placement_letter_error;
+    global $student_id_card_path, $it_placement_letter_path;
 
     $update_query = "";
 
@@ -116,10 +117,18 @@ function upload_documents(mysqli $database_connection, Student $student) {
         isset($it_placement_letter_path)) {
         if ($database_connection->query($update_query)) {
             if (isset($student_id_card)) {
+                if ($student->is_student_id_card_submitted()) {
+                    $old_student_id_card = $student->get_student_id_card();
+                    unlink($old_student_id_card);
+                }
                 move_uploaded_file($student_id_card["tmp_name"], $student_id_card_path);
             }
 
             if (isset($it_placement_letter)) {
+                if ($student->is_it_placement_letter_submitted()) {
+                    $old_it_placement_letter = $student->get_it_placement_letter();
+                    unlink($old_it_placement_letter);
+                }
                 move_uploaded_file($it_placement_letter["tmp_name"], $it_placement_letter_path);
             }
 
