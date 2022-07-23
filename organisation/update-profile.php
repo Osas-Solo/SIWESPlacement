@@ -118,6 +118,9 @@ function update_profile(mysqli $database_connection, Organisation $organisation)
     $password = cleanse_data($_POST["password"], $database_connection);
     $password_confirmer = cleanse_data($_POST["password-confirmer"], $database_connection);
 
+    $address = str_replace("\\r\\n", "\r\n", $address);
+    $description = str_replace("\\r\\n", "\r\n", $description);
+
     $logo = "";
     $logo_directory = "../img/organisation_logos/";
     $uploaded_file_format = [];

@@ -215,6 +215,8 @@ function update_profile(mysqli $database_connection, Student $student) {
     $password = cleanse_data($_POST["password"], $database_connection);
     $password_confirmer = cleanse_data($_POST["password-confirmer"], $database_connection);
 
+    $address = str_replace("\\r\\n", "\r\n", $address);
+
     if (!empty($password)) {
         if (!is_password_valid($password)) {
             $password_error = "Please enter a valid password.";
