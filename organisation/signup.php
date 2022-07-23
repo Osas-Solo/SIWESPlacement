@@ -137,7 +137,7 @@ function signup_organisation(mysqli $database_connection) {
             $logo_file = $email_address . "_logo" . $file_format[0];
             $logo_path = $logo_directory . $logo_file;
         } else {
-            $logo_error = "Organisation logo must be a PNG or JPEG image ending with the .png, .jpg or .jpeg format suffix.";
+            $logo_error = "Organisation\'s logo must be a PNG or JPEG image ending with the .png, .jpg or .jpeg format suffix.";
         }
     } else {
         $logo_error = "Please upload organisation's logo.";
@@ -187,7 +187,7 @@ function signup_organisation(mysqli $database_connection) {
             move_uploaded_file($logo["tmp_name"], $logo_path);
 
             $alert = "<script>
-                        if (confirm('You\'ve successfully completed your registration. You may now proceed to login.')) {";
+                        if (confirm('You\'ve successfully completed organisation\'s registration. You may now proceed to login.')) {";
             $login_url = "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) . "/login.php";
             $alert .= "window.location.replace('$login_url');
                         } else {";

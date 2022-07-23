@@ -120,20 +120,16 @@ function update_profile(mysqli $database_connection, Organisation $organisation)
 
     $logo = "";
     $logo_directory = "../img/organisation_logos/";
-    $logo_file = "";
-    $logo_path = "";
+    $uploaded_file_format = [];
 
     if (isset($_FILES["logo"]) && !empty($_FILES["logo"]["name"])) {
         $logo = $_FILES["logo"];
 
         if (str_ends_with($logo["name"], ".png") || str_ends_with($logo["name"], ".jpg") ||
             str_ends_with($logo["name"], ".jpeg")) {
-            preg_match("/\.(png)|(jpg)|(jpeg)$/", $logo["name"], $file_format);
-
-            $logo_file = $email_address . "_logo" . $file_format[0];
-            $logo_path = $logo_directory . $logo_file;
+            preg_match("/\.(png)|(jpg)|(jpeg)$/", $logo["name"], $uploaded_file_format);
         } else {
-            $logo_error = "Organisation logo must be a PNG or JPEG image ending with the .png, .jpg or .jpeg format suffix.";
+            $logo_error = "Organisation\'s logo must be a PNG or JPEG image ending with the .png, .jpg or .jpeg format suffix.";
         }
     }
 
@@ -176,20 +172,48 @@ function update_profile(mysqli $database_connection, Organisation $organisation)
     if (empty($organisation_name_error) && empty($password_error) && empty($confirm_password_error) &&
         empty($email_address_error) && empty($phone_number_error) && empty($address_error) && empty($description_error)
         && empty($logo_error)) {
-        $update_query = "UPDATE students SET matriculation_number = '$matriculation_number', first_name = '$first_name',
-                            middle_name = '$middle_name', last_name = '$last_name', gender = '$gender', address = '$address',
-                            email_address = '$email_address', phone_number = '$phone_number', date_of_birth = '$date_of_birth',
-                            state_id = $state_of_origin, department_id = $department";
+        $update_query = "UPDATE organisations SET organisation_name = '$organisation_name', address = '$address', 
+                            description = '$description', phone_number = '$phone_number', email_address = '$email_address'";
 
         if (!empty($password)) {
             $update_query .= ", password = SHA('$password')";
         }
 
-        $update_query .= " WHERE user_id = $organisation->user_id";
+        if ($email_address != $organisation->email_address) {
+            preg_match("/\.(png)|(jpg)|(jpeg)$/", $organisation->logo_path, $file_format);
+
+            $new_logo_file = $email_address . "_logo" . $file_format[0];
+
+            rename($organisation->get_logo(), $logo_directory . $new_logo_file);
+
+            $update_query .= ", logo_path = '$new_logo_file'";
+        }
+
+        $update_query .= " WHERE organisation_id = $organisation->organisation_id";
 
         if ($database_connection->query($update_query)) {
+            $_SESSION["organisation-email-address"] = $email_address;
+
+            if (isset($_FILES["logo"]) && !empty($_FILES["logo"]["name"])) {
+                $organisation = new Organisation($database_connection, $email_address);
+
+                $old_logo_file = $organisation->get_logo();
+                unlink($old_logo_file);
+
+                preg_match("/\.(png)|(jpg)|(jpeg)$/", $logo["name"], $uploaded_file_format);
+                $new_logo_file = $email_address . "_logo" . $uploaded_file_format[0];
+                $logo_path = $logo_directory . $new_logo_file;
+
+                $logo_update_query = "UPDATE organisations SET logo_path = '$new_logo_file' 
+                                        WHERE organisation_id = $organisation->organisation_id";
+
+                if ($database_connection->query($logo_update_query)) {
+                    move_uploaded_file($logo["tmp_name"], $logo_path);
+                }
+            }
+
             $alert = "<script>
-                        if (confirm('You\'ve successfully updated your profile.')) {";
+                        if (confirm('You\'ve successfully updated organisation\'s profile.')) {";
             $dashboard_url = "http://" . $_SERVER["HTTP_HOST"] . dirname($_SERVER["PHP_SELF"]) . "/index.php";
             $alert .= "window.location.replace('$dashboard_url');
                         } else {";
