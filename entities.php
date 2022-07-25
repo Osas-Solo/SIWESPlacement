@@ -360,13 +360,17 @@ class PlacementOffer {
     public bool $is_placement_full;
     public string $placement_reference;
 
-    function __construct(mysqli $database_connection = null, int $placement_offer_id = 0) {
+    function __construct(mysqli $database_connection = null, int $placement_offer_id = 0, int $organisation_id = 0) {
         if (isset($database_connection)) {
             $placement_offer_id = cleanse_data($placement_offer_id, $database_connection);
 
             $query = "SELECT * FROM placement_offers p 
                         INNER JOIN organisations o on p.organisation_id = o.organisation_id
                         WHERE placement_offer_id = $placement_offer_id";
+
+            if ($organisation_id != 0) {
+                $query .= " AND o.organisation_id = $organisation_id";
+            }
 
             $result = $database_connection->query($query);
 
@@ -412,7 +416,7 @@ class PlacementOffer {
                 $current_placement_offer->department->department_name;
 
             $department_detail .= " - $number_of_students_allowed" . (($number_of_students_allowed <= 1) ? " student" :
-                    " students") . " allowed";
+                    " students") . " left";
 
             $department_detail .= "</li>";
 
