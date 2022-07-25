@@ -64,7 +64,8 @@ $placement_requests = PlacementRequest::get_placement_requests($database_connect
                                     <div class="col-12">
                                         <div class="text-center ps-4">
                                             <h5 class="mb-3">
-                                                Sorry, no placement offer is currently available. Please check back later.
+                                                Sorry, you haven't made any placement request.
+                                                <a href="find-placement.php">Click here to make a placement request.</a>
                                             </h5>
                                         </div>
                                     </div>

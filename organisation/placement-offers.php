@@ -1,10 +1,10 @@
 <?php
-$page_title = "Placement Requests";
+$page_title = "Placement Offers";
 
 require_once "dashboard-header.php";
 
-$placement_requests = PlacementRequest::get_placement_requests($database_connection,
-    organisation_id: $organisation->organisation_id);
+$placement_offers = PlacementOffer::get_placement_offers($database_connection,
+    organisation_id: $organisation->organisation_id, is_placement_full: null);
 ?>
 
     <!-- Jobs Start -->
@@ -15,43 +15,40 @@ $placement_requests = PlacementRequest::get_placement_requests($database_connect
                 <div>
                     <div class="fade show p-0 active">
                         <?php
-                        if (count($placement_requests) > 0) {
-                            foreach ($placement_requests as $current_placement_request) {
+                        if (count($placement_offers) > 0) {
+                            foreach ($placement_offers as $current_placement_offer) {
                                 ?>
                                 <div class="job-item p-4 mb-4">
                                     <div class="row g-4">
                                         <div class="col-sm-12 col-md-8 d-flex align-items-center">
                                             <div class="text-start ps-4">
                                                 <h5>
-                                                    <?php echo $current_placement_request->student->matriculation_number?>
+                                                    <?php echo $current_placement_offer->department->department_name?>
                                                 </h5>
                                             </div>
                                             <div class="text-start ps-4">
                                                 <h5>
-                                                    <?php echo $current_placement_request->student->get_full_name()?>
+                                                    <?php echo $current_placement_offer->
+                                                        calculate_number_of_students_allowed($database_connection) .
+                                                        " students left"?>
                                                 </h5>
                                             </div>
                                         </div>
                                         <div class="col-sm-12 col-md-2 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                                             <div class="d-flex mb-3">
-                                                <a class="btn <?php
-                                                if ($current_placement_request->is_pending()) {
-                                                    echo 'btn-warning';
-                                                } else if ($current_placement_request->is_accepted()) {
-                                                    echo 'btn-success';
-                                                } else if ($current_placement_request->is_rejected()) {
-                                                    echo 'btn-danger';
+                                                <h5><?php
+                                                if ($current_placement_offer->is_salary_offered()) {
+                                                    echo $current_placement_offer->get_salary();
                                                 }
-                                                ?>" href="view-placement-request.php?id=<?php echo $current_placement_request->placement_request_id?>">
-                                                    <?php echo $current_placement_request->status?>
-                                                </a>
+                                                ?>
+                                                </h5>
                                             </div>
                                         </div>
                                         <div class="col-sm-12 col-md-2 d-flex flex-column align-items-start align-items-md-end justify-content-center">
                                             <div class="d-flex mb-3">
                                                 <a class="btn btn-primary"
-                                                   href="view-placement-request.php?id=<?php echo $current_placement_request->placement_request_id?>">
-                                                    View Request
+                                                   href="view-placement-offer.php?id=<?php echo $current_placement_offer->placement_offer_id?>">
+                                                    View Offer
                                                 </a>
                                             </div>
                                         </div>
@@ -66,7 +63,7 @@ $placement_requests = PlacementRequest::get_placement_requests($database_connect
                                     <div class="col-12">
                                         <div class="text-center ps-4">
                                             <h5 class="mb-3">
-                                                Sorry, no student has made any placement offer. Please check back later.
+                                                Sorry, your organisation has no placement offer that hasn't gotten any response.
                                             </h5>
                                         </div>
                                     </div>
