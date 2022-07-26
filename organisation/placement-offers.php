@@ -28,9 +28,11 @@ $placement_offers = PlacementOffer::get_placement_offers($database_connection,
                                             </div>
                                             <div class="text-start ps-4">
                                                 <h5>
-                                                    <?php echo $current_placement_offer->
-                                                        calculate_number_of_students_allowed($database_connection) .
-                                                        " students left"?>
+                                                    <?php
+                                                    $number_of_students = $current_placement_offer->calculate_number_of_students_allowed($database_connection);
+                                                    echo $number_of_students . (($number_of_students <= 1) ? " student"
+                                                            : " students") . " left";
+                                                    ?>
                                                 </h5>
                                             </div>
                                         </div>

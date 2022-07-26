@@ -11,6 +11,7 @@ changeNumberOfStudentsVisibility();
 function changeSalaryVisibility() {
     if (!offerSalaryCheckbox.checked) {
         salaryDiv.style.display = "none";
+        salaryInput.removeAttribute("required");
     } else {
         salaryDiv.style.display = "";
         salaryInput.setAttribute("required", "");
@@ -21,6 +22,7 @@ function changeNumberOfStudentsVisibility() {
     for (let i = 0; i < departmentCheckboxes.length; i++) {
         if (!departmentCheckboxes[i].checked) {
             studentsDivs[i].style.display = "none";
+            numberOfStudentsInputs[i].removeAttribute("required");
         } else {
             studentsDivs[i].style.display = "";
             numberOfStudentsInputs[i].setAttribute("required", "");
