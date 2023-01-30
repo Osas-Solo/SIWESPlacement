@@ -31,7 +31,7 @@ if (isset($_POST["signup"])) {
                         <form class="was-validated" method="post" enctype="multipart/form-data">
                             <div class="row g-3">
                                 <div class="col-12 col-sm-6 mb-3">
-                                    <label class="form-label text-primary" for="organisation-name">First Name <span class="text-danger">*</span></label>
+                                    <label class="form-label text-primary" for="organisation-name">Organisation Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="organisation-name"
                                            placeholder="Organisation Name" required value="<?php echo $organisation_name?>">
                                     <div class="text-danger" id="organisation-name-error-message">
