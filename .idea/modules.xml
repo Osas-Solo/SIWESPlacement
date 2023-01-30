@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/SIWESPlacement.iml" filepath="$PROJECT_DIR$/.idea/SIWESPlacement.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../StarCooperative/.idea/StarCooperative.iml" filepath="$PROJECT_DIR$/../StarCooperative/.idea/StarCooperative.iml" />
     </modules>
   </component>
 </project>

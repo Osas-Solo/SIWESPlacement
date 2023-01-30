@@ -63,6 +63,40 @@ require_once "dashboard-header.php";
                                 <td class="p-2"><?php echo $student->department->department_name?></td>
                             </tr>
                             <tr>
+                                <th class="p-2 align-middle">Student ID Card<i class="fa fa-id-card text-primary ms-1"></i></th>
+                                <td class="p-2">
+                                    <?php
+                                    if ($student->is_student_id_card_submitted()) {
+                                    ?>
+                                    <img src="<?php echo $student->get_student_id_card()?>"
+                                         alt="Student ID Card" class="img-thumbnail d-block border">
+                                    <?php
+                                    } else {
+                                    ?>
+                                    You have not yet uploaded your student ID Card
+                                    <?php
+                                    }
+                                    ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="p-2 align-middle">Student IT Placement Letter<i class="fa fa-file text-primary ms-1"></i></th>
+                                <td class="p-2">
+                                    <?php
+                                    if ($student->is_it_placement_letter_submitted()) {
+                                        ?>
+                                        <iframe class="w-100 h-100" src="<?php echo $student->get_it_placement_letter()?>"
+                                                alt="IT Placement Letter"></iframe>
+                                        <?php
+                                    } else {
+                                        ?>
+                                        You have not yet uploaded your IT placement letter
+                                        <?php
+                                    }
+                                    ?>
+                                </td>
+                            </tr>
+                            <tr>
                                 <th colspan="2"><a href="update-profile.php">Update Details</a></th>
                             </tr>
                         </tbody>
