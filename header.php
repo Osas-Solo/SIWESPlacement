@@ -38,7 +38,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="index.php" class="nav-item nav-link active">Home</a>
+                <a href="index.php" class="nav-item nav-link">Home</a>
                 <a href="login.php" class="btn btn-primary rounded-0 py-4 px-lg-5">Dashboard<i class="fa fa-arrow-right ms-3"></i></a>
         </div>
     </nav>
