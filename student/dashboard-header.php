@@ -51,7 +51,7 @@ $student = new Student($database_connection, $_SESSION["matriculation-number"]);
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="index.php" class="nav-item nav-link active">Dashboard</a>
+                <a href="index.php" class="nav-item nav-link">Dashboard</a>
                 <a href="find-placement.php" class="nav-item nav-link">Find Placement<i class="fa fa-search text-primary ms-1"></i></a>
                 <a href="placement-requests.php" class="nav-item nav-link">Placement Requests<i class="fa fa-mail-bulk text-primary ms-1"></i></a>
                 <a href="update-profile.php" class="nav-item nav-link">Update Profile<i class="fa fa-user text-primary ms-1"></i></a>
