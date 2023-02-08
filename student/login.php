@@ -26,20 +26,22 @@ if (isset($_POST["login"])) {
                     <h1 class="text-primary display-1 mb-5 text-center"><?php echo $page_title?></h1>
 
                     <div>
-                        <form class="was-validated" method="post">
+                        <form method="post">
                             <div class="row g-3">
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="matriculation-number">Matriculation Number <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="matriculation-number" pattern="CO[S|T]/[0-9]{4}/20[0-9]{2}"
-                                           placeholder="COS/0123/2022" required value="<?php echo $matriculation_number?>">
+                                           oninput="hideMatriculationNumberErrorMessage()" placeholder="COS/0123/2022" required value="<?php echo $matriculation_number?>">
                                     <div class="text-danger" id="matriculation-number-error-message"><?php echo $matriculation_number_error?></div>
                                 </div>
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="password">Password <span class="text-danger">*</span></label>
                                     <input type="password" class="form-control" name="password" placeholder="Password"
-                                           required>
+                                           oninput="hidePasswordErrorMessage()" required>
                                     <div id="password-error-message" class="text-danger"><?php echo $password_error?></div>
                                 </div>
+
+                                <script src="../js/login-validation.js"></script>
                                 <div class="col-12">
                                     <button class="btn btn-primary d-block mx-auto" type="submit" name="login">Login</button>
                                     <p class="mt-3 text-center">

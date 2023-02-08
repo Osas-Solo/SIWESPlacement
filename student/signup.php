@@ -10,9 +10,7 @@ if (isset($_SESSION["matriculation-number"])) {
     session_destroy();
 }
 
-$password_error = "Please enter a valid password.";
-
-$first_name_error = $last_name_error = $matriculation_number_error = $confirm_password_error = $email_address_error =
+$first_name_error = $last_name_error = $matriculation_number_error = $password_error = $confirm_password_error = $email_address_error =
     $phone_number_error = $date_of_birth_error = $address_error = $state_of_origin_error = $college_error = $department_error = "";
 
 $gender = "M";
@@ -34,12 +32,12 @@ $colleges = ["", "College of Science", "College of Technology"];
                     <h1 class="text-primary display-1 mb-5 text-center"><?php echo $page_title?></h1>
 
                     <div>
-                        <form class="was-validated" method="post">
+                        <form method="post">
                             <div class="row g-3">
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="first-name">First Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="first-name" placeholder="First Name"
-                                           required value="<?php echo $first_name?>">
+                                           oninput="hideFirstNameErrorMessage()" required value="<?php echo $first_name?>">
                                     <div class="text-danger" id="first-name-error-message"><?php echo $first_name_error?></div>
                                 </div>
                                 <div class="col-12 col-sm-6 mb-3">
@@ -50,48 +48,48 @@ $colleges = ["", "College of Science", "College of Technology"];
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="last-name">Surname <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="last-name" placeholder="Surname"
-                                           required value="<?php echo $last_name?>">
+                                           oninput="hideLastNameErrorMessage()" required value="<?php echo $last_name?>">
                                     <div class="text-danger" id="last-name-error-message"><?php echo $last_name_error?></div>
                                 </div>
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="matriculation-number">Matriculation Number <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="matriculation-number" pattern="CO[S|T]/[0-9]{4}/20[0-9]{2}"
-                                           placeholder="COS/0123/2022" required value="<?php echo $matriculation_number?>">
+                                           oninput="hideMatriculationNumberErrorMessage()" placeholder="COS/0123/2022" required value="<?php echo $matriculation_number?>">
                                     <div class="text-danger" id="matriculation-number-error-message"><?php echo $matriculation_number_error?></div>
                                 </div>
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="password">Password <span class="text-danger">*</span></label>
-                                    <input type="password" class="form-control" name="password" placeholder="Password"
-                                           required minlength="8">
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Password"
+                                           oninput="checkPasswordValidity()" required minlength="8">
                                     <div>
                                         Please enter a password with an uppercase letter, a lowercase letter and a digit.
                                         Your password should be at least 8 characters long.
                                         <br>
-                                        <span class="text-danger"><?php echo $password_error?></span>
+                                        <span id="password-error-message" class="text-danger"><?php echo $password_error?></span>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="password-confirmer">Confirm Password <span class="text-danger">*</span></label>
-                                    <input type="password" class="form-control" name="password-confirmer"
-                                           placeholder="Confirm Password" required>
+                                    <input type="password" class="form-control" id="password-confirmer" name="password-confirmer"
+                                           oninput="checkPasswordConfirmation()" placeholder="Confirm Password" required>
                                     <div class="text-danger" id="password-confirmer-error-message"><?php echo $confirm_password_error?></div>
                                 </div>
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="email-address">Email Address <span class="text-danger">*</span></label>
                                     <input type="email" class="form-control" name="email-address" placeholder="Email Address"
-                                           required value="<?php echo $email_address?>">
+                                           oninput="hideEmailAddressErrorMessage()" pattern="^[A-Za-z0-9+_.-]+@(.+\..+)" required value="<?php echo $email_address?>">
                                     <div class="text-danger" id="email-address-error-message"><?php echo $email_address_error?></div>
                                 </div>
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="phone-number">Phone Number <span class="text-danger">*</span></label>
                                     <input type="tel" class="form-control" name="phone-number" placeholder="08012345678"
-                                           required value="<?php echo $phone_number?>" pattern="0[7-9][0-1]\d{8}">
+                                           oninput="hidePhoneNumberErrorMessage()" required value="<?php echo $phone_number?>" pattern="0[7-9][0-1]\d{8}">
                                     <div class="text-danger" id="phone-number-error-message"><?php echo $phone_number_error?></div>
                                 </div>
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="date-of-birth">Date of Birth <span class="text-danger">*</span></label>
                                     <input type="date" class="form-control" name="date-of-birth" min="1940-01-01"
-                                           max="2006-12-31" required value="<?php echo $date_of_birth?>">
+                                           oninput="hideDateOfBirthErrorMessage()" max="2006-12-31" required value="<?php echo $date_of_birth?>">
                                     <div class="text-danger" id="date-of-birth-error-message"><?php echo $date_of_birth_error?></div>
                                 </div>
                                 <div class="col-12 col-sm-6 mb-3">
@@ -164,7 +162,7 @@ $colleges = ["", "College of Science", "College of Technology"];
                                 <div class="col-12">
                                     <label class="form-label text-primary" for="address">Address <span class="text-danger">*</span></label>
                                     <textarea class="form-control" name="address" rows="5" placeholder="Address"
-                                              required><?php echo $address?></textarea>
+                                              oninput="hideAddressErrorMessage()" required><?php echo $address?></textarea>
                                     <div class="text-danger" id="address-error-message"><?php echo $address_error?></div>
                                 </div>
                                 <div class="col-12 pt-5">
@@ -175,6 +173,7 @@ $colleges = ["", "College of Science", "College of Technology"];
                                 </div>
                             </div>
 
+                            <script src="../js/signup-validation.js"></script>
                             <script src="../js/department-list-updater.js"></script>
                         </form>
                     </div>
