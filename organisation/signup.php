@@ -10,8 +10,7 @@ if (isset($_SESSION["organisation-email-address"])) {
     session_destroy();
 }
 
-$password_error = "Please enter a valid password.";
-$organisation_name_error = $confirm_password_error = $email_address_error = $phone_number_error = $address_error =
+$organisation_name_error = $password_error = $confirm_password_error = $email_address_error = $phone_number_error = $address_error =
     $description_error = $logo_error = "";
 
 $organisation_name = $email_address = $phone_number = $address = $description = "";
@@ -28,12 +27,12 @@ if (isset($_POST["signup"])) {
                     <h1 class="text-primary display-1 mb-5 text-center"><?php echo $page_title?></h1>
 
                     <div>
-                        <form class="was-validated" method="post" enctype="multipart/form-data">
+                        <form method="post" enctype="multipart/form-data">
                             <div class="row g-3">
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="organisation-name">Organisation Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control" name="organisation-name"
-                                           placeholder="Organisation Name" required value="<?php echo $organisation_name?>">
+                                           oninput="hideOrganisationNameErrorMessage()" placeholder="Organisation Name" required value="<?php echo $organisation_name?>">
                                     <div class="text-danger" id="organisation-name-error-message">
                                         <?php echo $organisation_name_error?>
                                     </div>
@@ -41,36 +40,37 @@ if (isset($_POST["signup"])) {
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="email-address">Organisation Email Address <span class="text-danger">*</span></label>
                                     <input type="email" class="form-control" name="email-address" placeholder="Email Address"
-                                           required value="<?php echo $email_address?>">
+                                           oninput="hideEmailAddressErrorMessage()" required value="<?php echo $email_address?>">
                                     <div class="text-danger" id="email-address-error-message"><?php echo $email_address_error?></div>
                                 </div>
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="password">Password <span class="text-danger">*</span></label>
-                                    <input type="password" class="form-control" name="password" placeholder="Password"
-                                           required minlength="8">
+                                    <input type="password" class="form-control" name="password" id="password" placeholder="Password"
+                                           oninput="checkPasswordValidity()" required minlength="8">
                                     <div>
                                         Please enter a password with an uppercase letter, a lowercase letter and a digit.
                                         Your password should be at least 8 characters long.
                                         <br>
-                                        <span class="text-danger"><?php echo $password_error?></span>
+                                        <span id="password-error-message" class="text-danger"><?php echo $password_error?></span>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="password-confirmer">Confirm Password <span class="text-danger">*</span></label>
-                                    <input type="password" class="form-control" name="password-confirmer"
-                                           placeholder="Confirm Password" required>
+                                    <input type="password" class="form-control" name="password-confirmer" id="password-confirmer"
+                                           oninput="checkPasswordConfirmation()" placeholder="Confirm Password" required>
                                     <div class="text-danger" id="password-confirmer-error-message"><?php echo $confirm_password_error?></div>
                                 </div>
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="phone-number">Phone Number <span class="text-danger">*</span></label>
                                     <input type="tel" class="form-control" name="phone-number" placeholder="08012345678"
-                                           required value="<?php echo $phone_number?>" pattern="0[7-9][0-1]\d{8}">
+                                           oninput="hidePhoneNumberErrorMessage()" required value="<?php echo $phone_number?>" pattern="0[7-9][0-1]\d{8}">
                                     <div class="text-danger" id="phone-number-error-message"><?php echo $phone_number_error?></div>
                                 </div>
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="logo">Organisation Logo <span class="text-danger">*</span></label>
                                     <input type="file" class="form-control-file form-control" name="logo" required
-                                           accept="image/png, image/jpeg" onchange="previewMedia(event, 'logo-preview')">
+                                           accept="image/png, image/jpeg" oninput="hideLogoErrorMessage()"
+                                           onchange="previewMedia(event, 'logo-preview')">
                                     <img id="logo-preview" class="img-fluid d-block border mt-2" alt="Logo Preview">
                                     <div class="text-danger" id="logo-error-message">
                                         <?php echo $logo_error?>
@@ -79,13 +79,13 @@ if (isset($_POST["signup"])) {
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="address">Address <span class="text-danger">*</span></label>
                                     <textarea class="form-control" name="address" rows="5" placeholder="Address"
-                                              required><?php echo $address?></textarea>
+                                              oninput="hideAddressErrorMessage()" required><?php echo $address?></textarea>
                                     <div class="text-danger" id="address-error-message"><?php echo $address_error?></div>
                                 </div>
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="description">Description <span class="text-danger">*</span></label>
                                     <textarea class="form-control" name="description" rows="5" placeholder="Description"
-                                        required><?php echo $description?></textarea>
+                                              oninput="hideDescriptionErrorMessage()" required><?php echo $description?></textarea>
                                     <div class="text-danger" id="description-error-message"><?php echo $description_error?></div>
                                 </div>
                                 <div class="col-12 pt-5">
@@ -96,6 +96,7 @@ if (isset($_POST["signup"])) {
                                 </div>
                             </div>
 
+                            <script src="../js/signup-validation.js"></script>
                             <script src="../js/media-previewer.js"></script>
                         </form>
                     </div>

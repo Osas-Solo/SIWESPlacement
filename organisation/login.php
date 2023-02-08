@@ -26,20 +26,23 @@ if (isset($_POST["login"])) {
                     <h1 class="text-primary display-1 mb-5 text-center"><?php echo $page_title?></h1>
 
                     <div>
-                        <form class="was-validated" method="post">
+                        <form method="post">
                             <div class="row g-3">
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="email-address">Organisation Email Address <span class="text-danger">*</span></label>
                                     <input type="email" class="form-control" name="email-address" placeholder="Email Address"
-                                           required value="<?php echo $email_address?>">
+                                           oninput="hideEmailAddressErrorMessage()" required value="<?php echo $email_address?>">
                                     <div class="text-danger" id="email-address-error-message"><?php echo $email_address_error?></div>
                                 </div>
                                 <div class="col-12 col-sm-6 mb-3">
                                     <label class="form-label text-primary" for="password">Password <span class="text-danger">*</span></label>
                                     <input type="password" class="form-control" name="password" placeholder="Password"
-                                           required>
+                                           oninput="hidePasswordErrorMessage()" required>
                                     <div id="password-error-message" class="text-danger"><?php echo $password_error?></div>
                                 </div>
+
+                                <script src="../js/login-validation.js"></script>
+
                                 <div class="col-12">
                                     <button class="btn btn-primary d-block mx-auto" type="submit" name="login">Login</button>
                                     <p class="mt-3 text-center">

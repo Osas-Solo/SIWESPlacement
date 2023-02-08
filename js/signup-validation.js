@@ -7,6 +7,9 @@ let emailAddressErrorMessage = document.getElementById("email-address-error-mess
 let phoneNumberErrorMessage = document.getElementById("phone-number-error-message");
 let dateOfBirthErrorMessage = document.getElementById("date-of-birth-error-message");
 let addressErrorMessage = document.getElementById("address-error-message");
+let descriptionErrorMessage = document.getElementById("description-error-message");
+let logoErrorMessage = document.getElementById("logo-error-message");
+let organisationNameErrorMessage = document.getElementById("organisation-name-error-message");
 
 function checkPasswordValidity() {
     let password = document.getElementById("password").value;
@@ -114,4 +117,16 @@ function hideDateOfBirthErrorMessage() {
 
 function hideAddressErrorMessage() {
     addressErrorMessage.style.display = "none";
+}
+
+function hideDescriptionErrorMessage() {
+    descriptionErrorMessage.style.display = "none";
+}
+
+function hideOrganisationNameErrorMessage() {
+    organisationNameErrorMessage.style.display = "none";
+}
+
+function hideLogoErrorMessage() {
+    logoErrorMessage.style.display = "none";
 }
